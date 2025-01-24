@@ -2,8 +2,8 @@ from rest_framework import viewsets
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from .models import Person, Student, Professor
-from .forms import  StudentForm, ProfessorForm
+from .models import Person, Student, Professor,Major
+from .forms import  StudentForm, ProfessorForm, MajorForm
 from .serializers import StudentSerializer, ProfessorSerializer
 
 def home(request):
@@ -77,3 +77,30 @@ class ProfessorDeleteView(DeleteView):
     model = Professor
     template_name = "professors/professor_confirm_delete.html"
     success_url = reverse_lazy("professor-list")
+
+
+    # List all Majors
+class MajorListView(ListView):
+    model = Major
+    template_name = 'major/major_list.html'
+    context_object_name = 'majors'
+
+# Create a new Major
+class MajorCreateView(CreateView):
+    model = Major
+    template_name = 'major/major_form.html'
+    form_class = MajorForm
+    success_url = reverse_lazy('major-list')
+
+# Edit an existing Major
+class MajorUpdateView(UpdateView):
+    model = Major
+    template_name = 'major/major_form.html'
+    form_class = MajorForm
+    success_url = reverse_lazy('major-list')
+
+# Delete a Major
+class MajorDeleteView(DeleteView):
+    model = Major
+    template_name = 'major/major_confirm_delete.html'
+    success_url = reverse_lazy('major-list')

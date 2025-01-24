@@ -22,3 +22,12 @@ class ProfessorForm(forms.ModelForm):
             "faculty": forms.Select(attrs={"class": "form-control"}),
             "department": forms.Select(attrs={"class": "form-control"}),
         }
+
+class MajorForm(forms.ModelForm):
+    class Meta:
+        model = Major
+        fields = ['name', 'faculty']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'faculty': forms.Select(attrs={'class': 'form-control'}),
+        }

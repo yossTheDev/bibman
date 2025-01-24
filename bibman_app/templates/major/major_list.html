@@ -1,0 +1,35 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-5">
+  <h1>Majors (Especialidades)</h1>
+  <a href="{% url 'major-create' %}" class="btn btn-primary mb-3">Add Major</a>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Faculty</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for major in majors %}
+      <tr>
+        <td>{{ major.name }}</td>
+        <td>{{ major.faculty.name }}</td>
+        <td>
+          <a
+            href="{% url 'major-edit' major.id %}"
+            class="btn btn-sm btn-warning"
+            >Edit</a
+          >
+          <a
+            href="{% url 'major-delete' major.id %}"
+            class="btn btn-sm btn-danger"
+            >Delete</a
+          >
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
