@@ -16,8 +16,8 @@
     <tbody>
       {% for student in students %}
       <tr>
-        <td>{{ student.person.name }}</td>
-        <td>{{ student.major.name }}</td>
+        <td>{{ student.name }}</td>
+        <td>{{ student.major.name|default:"N/A" }}</td>
         <td>{{ student.academic_year }}</td>
         <td>
           <a

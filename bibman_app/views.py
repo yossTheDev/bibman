@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import Person, Student, Professor
-from .forms import PersonForm, StudentForm, ProfessorForm
+from .forms import  StudentForm, ProfessorForm
 from .serializers import StudentSerializer, ProfessorSerializer
 
 def home(request):
@@ -18,33 +18,6 @@ class StudentViewSet(viewsets.ModelViewSet):
 class ProfessorViewSet(viewsets.ModelViewSet):
     queryset = Professor.objects.all()
     serializer_class = ProfessorSerializer
-
-
-# Views for Person Model
-class PersonListView(ListView):
-    model = Person
-    template_name = "person_list.html"
-    context_object_name = "persons"
-
-
-class PersonCreateView(CreateView):
-    model = Person
-    form_class = PersonForm
-    template_name = "person_form.html"
-    success_url = reverse_lazy("person-list")
-
-
-class PersonUpdateView(UpdateView):
-    model = Person
-    form_class = PersonForm
-    template_name = "person_form.html"
-    success_url = reverse_lazy("person-list")
-
-
-class PersonDeleteView(DeleteView):
-    model = Person
-    template_name = "person_confirm_delete.html"
-    success_url = reverse_lazy("person-list")
 
 
 # Views for Student Model

@@ -24,38 +24,35 @@ class Major(models.Model):
 
 
 class Person(models.Model):
-    ROLE_CHOICES = [
-        ("student", "Student"),
-        ("professor", "Professor"),
-    ]
     name = models.CharField(max_length=255)  # Full name
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES)  # Role (student/professor)
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE, related_name="persons")  # Faculty
+    created_at = models.DateTimeField(auto_now_add=True)  # To track creation time
 
     def __str__(self):
-        return f"{self.name} ({self.role})"
+        return f"{self.name}"
 
 
-class Student(models.Model):
-    person = models.OneToOneField(Person, on_delete=models.CASCADE, related_name="student_profile")
+class Student(Person):
     major = models.ForeignKey(Major, on_delete=models.SET_NULL, null=True, blank=True, related_name="students")
     academic_year = models.PositiveSmallIntegerField()  # Academic year (1-5)
 
     def __str__(self):
-        return f"Student: {self.person.name}, Year {self.academic_year}"
+        return f"Student: {self.name}, Year {self.academic_year}"
 
 
-class Professor(models.Model):
-    person = models.OneToOneField(Person, on_delete=models.CASCADE, related_name="professor_profile")
+class Professor(Person):
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True, related_name="professors")
 
     def __str__(self):
-        return f"Professor: {self.person.name}, {self.department.name if self.department else 'No Department'}"
+        return f"Professor: {self.name}, {self.department.name if self.department else 'No Department'}"
 
 
 class AccessRecord(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name="access_records")  # Person who accessed
     timestamp = models.DateTimeField(auto_now_add=True)  # Access timestamp
+    major = models.ForeignKey(Major, on_delete=models.SET_NULL, null=True, blank=True)  # For students, if applicable
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)  # For professors, if applicable
 
     def __str__(self):
         return f"Access: {self.person.name} at {self.timestamp}"
+
