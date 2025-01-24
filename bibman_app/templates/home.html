@@ -1,12 +1,21 @@
-{% extends 'base.html' %} {% block title %}Home{% endblock %} {% block content%}
+{% extends "base.html" %} {% block content %}
 <div class="text-center mt-5">
   <h1>Welcome to the Access Management System</h1>
   <p class="lead">
-    This system allows you to manage people's access, view records, and perform
-    CRUD operations.
+    This system allows you to manage people’s access, view records, and perform
+    CRUD operations for both students and professors.
   </p>
-  <a href="{% url 'person_list' %}" class="btn btn-primary"
-    >Go to People List</a
-  >
+  <div class="mt-4">
+    <a href="{% url 'student-list' %}" class="btn btn-primary mb-2"
+      >Go to Students List</a
+    >
+    <a href="{% url 'professor-list' %}" class="btn btn-secondary mb-2"
+      >Go to Professors List</a
+    >
+  </div>
+  <p>
+    You can add, edit, delete, and filter records based on student or professor
+    data, including faculty, department, and academic details.
+  </p>
 </div>
 {% endblock %}

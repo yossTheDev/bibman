@@ -1,6 +1,8 @@
 {% extends "base.html" %} {% block content %}
 <div class="container mt-5">
-  <h1>{{ view.object ? "Edit Professor" : "Add Professor" }}</h1>
+  <h1>
+    {% if view.object %} Edit Professor {% else %} Add Professor {% endif %}
+  </h1>
   <form method="post">
     {% csrf_token %} {{ form.as_p }}
     <button type="submit" class="btn btn-success">Save</button>
