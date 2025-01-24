@@ -3,7 +3,8 @@ from .views import (
     StudentListView, StudentCreateView, StudentUpdateView, StudentDeleteView,
     ProfessorListView, ProfessorCreateView, ProfessorUpdateView, ProfessorDeleteView,
     MajorCreateView,MajorListView,MajorDeleteView,MajorUpdateView,
-       DepartmentCreateView,DepartmentListView,DepartmentDeleteView,DepartmentUpdateView
+    DepartmentCreateView,DepartmentListView,DepartmentDeleteView,DepartmentUpdateView,
+    FacultyCreateView,FacultyListView,FacultyDeleteView,FacultyUpdateView
 )
 
 urlpatterns = [
@@ -30,5 +31,11 @@ urlpatterns = [
     path('departments/add/', DepartmentCreateView.as_view(), name='department-create'),
     path('departments/<int:pk>/edit/', DepartmentUpdateView.as_view(), name='department-edit'),
     path('departments/<int:pk>/delete/', DepartmentDeleteView.as_view(), name='department-delete'),
+
+     # Faculty URLs
+    path('faculties/', FacultyListView.as_view(), name='faculty-list'),
+    path('faculties/add/', FacultyCreateView.as_view(), name='faculty-create'),
+    path('faculties/<int:pk>/edit/', FacultyUpdateView.as_view(), name='faculty-edit'),
+    path('faculties/<int:pk>/delete/', FacultyDeleteView.as_view(), name='faculty-delete'),
 
 ]
