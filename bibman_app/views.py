@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from .models import Person, Student, Professor,Major
+from .models import Person, Student, Professor,Major, Department
 from .forms import  StudentForm, ProfessorForm, MajorForm
 from .serializers import StudentSerializer, ProfessorSerializer
 
@@ -104,3 +104,30 @@ class MajorDeleteView(DeleteView):
     model = Major
     template_name = 'major/major_confirm_delete.html'
     success_url = reverse_lazy('major-list')
+
+
+# List View for Department
+class DepartmentListView(ListView):
+    model = Department
+    template_name = "departments/department_list.html"
+    context_object_name = "departments"
+
+# Create View for Department
+class DepartmentCreateView(CreateView):
+    model = Department
+    template_name = "departments/department_form.html"
+    fields = ['name', 'faculty']  # Fields you want to show in the form
+    success_url = reverse_lazy("department-list")
+
+# Update View for Department
+class DepartmentUpdateView(UpdateView):
+    model = Department
+    template_name = "departments/department_form.html"
+    fields = ['name', 'faculty']
+    success_url = reverse_lazy("department-list")
+
+# Delete View for Department
+class DepartmentDeleteView(DeleteView):
+    model = Department
+    template_name = "departments/department_confirm_delete.html"
+    success_url = reverse_lazy("department-list")

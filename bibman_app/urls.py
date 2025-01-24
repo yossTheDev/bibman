@@ -2,7 +2,8 @@ from django.urls import path
 from .views import (
     StudentListView, StudentCreateView, StudentUpdateView, StudentDeleteView,
     ProfessorListView, ProfessorCreateView, ProfessorUpdateView, ProfessorDeleteView,
-    MajorCreateView,MajorListView,MajorDeleteView,MajorUpdateView
+    MajorCreateView,MajorListView,MajorDeleteView,MajorUpdateView,
+       DepartmentCreateView,DepartmentListView,DepartmentDeleteView,DepartmentUpdateView
 )
 
 urlpatterns = [
@@ -23,5 +24,11 @@ urlpatterns = [
     path('majors/add/', MajorCreateView.as_view(), name='major-create'),
     path('majors/<int:pk>/edit/', MajorUpdateView.as_view(), name='major-edit'),
     path('majors/<int:pk>/delete/', MajorDeleteView.as_view(), name='major-delete'),
+
+    # Department URLs
+    path('departments/', DepartmentListView.as_view(), name='department-list'),
+    path('departments/add/', DepartmentCreateView.as_view(), name='department-create'),
+    path('departments/<int:pk>/edit/', DepartmentUpdateView.as_view(), name='department-edit'),
+    path('departments/<int:pk>/delete/', DepartmentDeleteView.as_view(), name='department-delete'),
 
 ]
