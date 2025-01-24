@@ -1,0 +1,37 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-5">
+  <h1>Professors</h1>
+  <a href="{% url 'professor-create' %}" class="btn btn-primary mb-3"
+    >Add Professor</a
+  >
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for professor in professors %}
+      <tr>
+        <td>{{ professor.person.name }}</td>
+        <td>{{ professor.department.name }}</td>
+        <td>
+          <a
+            href="{% url 'professor-edit' professor.id %}"
+            class="btn btn-sm btn-warning"
+            >Edit</a
+          >
+          <a
+            href="{% url 'professor-delete' professor.id %}"
+            class="btn btn-sm btn-danger"
+            >Delete</a
+          >
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block title %}Home{% endblock %} {% block content%}
+<div class="text-center mt-5">
+  <h1>Welcome to the Access Management System</h1>
+  <p class="lead">
+    This system allows you to manage people's access, view records, and perform
+    CRUD operations.
+  </p>
+  <a href="{% url 'person_list' %}" class="btn btn-primary"
+    >Go to People List</a
+  >
+</div>
+{% endblock %}

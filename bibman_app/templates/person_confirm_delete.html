@@ -1,0 +1,9 @@
+{% extends 'base.html' %} {% block title %}Home{% endblock %} {% block content%}
+<h1>Delete Person</h1>
+<p>Are you sure you want to delete {{ person.name }}?</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Yes, Delete</button>
+  <a href="{% url 'person_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
