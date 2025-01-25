@@ -11,7 +11,6 @@ router.register(r'professors', ProfessorViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('students/', include('bibman_app.urls')),  
-    path('professors/', include('bibman_app.urls')),  
+    path('/', include('bibman_app.urls')),  
     path('', home, name='home'), 
 ]

@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-5">
+  <h1 class="text-white">
+    {% if object %} Editar Registro de Acceso {% else %} Agregar Nuevo Registro
+    de Acceso {% endif %}
+  </h1>
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-4">{{ form.as_p }}</div>
+
+    <button type="submit" class="btn btn-primary">
+      {% if object %} Guardar Cambios {% else %} Agregar Registro {% endif %}
+    </button>
+  </form>
+
+  <a href="{% url 'access-record-list' %}" class="btn btn-secondary mt-3">
+    Volver a la Lista
+  </a>
+</div>
+{% endblock %}

@@ -4,7 +4,8 @@ from .views import (
     ProfessorListView, ProfessorCreateView, ProfessorUpdateView, ProfessorDeleteView,
     MajorCreateView,MajorListView,MajorDeleteView,MajorUpdateView,
     DepartmentCreateView,DepartmentListView,DepartmentDeleteView,DepartmentUpdateView,
-    FacultyCreateView,FacultyListView,FacultyDeleteView,FacultyUpdateView
+    FacultyCreateView,FacultyListView,FacultyDeleteView,FacultyUpdateView,
+    AccessRecordListView,AccessRecordCreateView,AccessRecordDeleteView,AccessRecordUpdateView
 )
 
 urlpatterns = [
@@ -37,5 +38,11 @@ urlpatterns = [
     path('faculties/add/', FacultyCreateView.as_view(), name='faculty-create'),
     path('faculties/<int:pk>/edit/', FacultyUpdateView.as_view(), name='faculty-edit'),
     path('faculties/<int:pk>/delete/', FacultyDeleteView.as_view(), name='faculty-delete'),
+
+     # AccessRecord URLs
+    path('access_records/', AccessRecordListView.as_view(), name='access-record-list'),
+    path('access_records/add/', AccessRecordCreateView.as_view(), name='access-record-create'),
+    path('access_records/<int:pk>/edit/', AccessRecordUpdateView.as_view(), name='access-record-edit'),
+    path('access_records/<int:pk>/delete/', AccessRecordDeleteView.as_view(), name='access-record-delete'),
 
 ]

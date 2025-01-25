@@ -2,8 +2,8 @@ from rest_framework import viewsets
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from .models import Person, Student, Professor,Major, Department, Faculty
-from .forms import  StudentForm, ProfessorForm, MajorForm
+from .models import Person, Student, Professor,Major, Department, Faculty, AccessRecord
+from .forms import  StudentForm, ProfessorForm, MajorForm,AccessRecordForm
 from .serializers import StudentSerializer, ProfessorSerializer
 
 def home(request):
@@ -266,3 +266,26 @@ class FacultyDeleteView(DeleteView):
     model = Faculty
     template_name = "faculties/faculty_confirm_delete.html"
     success_url = reverse_lazy("faculty-list")
+
+
+class AccessRecordListView(ListView):
+    model = AccessRecord
+    template_name = "access_records/access_record_list.html"
+    context_object_name = "access_records"
+
+class AccessRecordCreateView(CreateView):
+    model = AccessRecord
+    form_class = AccessRecordForm
+    template_name = "access_records/access_record_form.html"
+    success_url = reverse_lazy('access-record-list')
+
+class AccessRecordUpdateView(UpdateView):
+    model = AccessRecord
+    form_class = AccessRecordForm
+    template_name = "access_records/access_record_form.html"
+    success_url = reverse_lazy('access-record-list')
+
+class AccessRecordDeleteView(DeleteView):
+    model = AccessRecord
+    template_name = "access_records/access_record_confirm_delete.html"
+    success_url = reverse_lazy('access-record-list')

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Student, Professor, Major, Department, Faculty
+from .models import Student, Professor, Major,AccessRecord
 
 class StudentForm(forms.ModelForm):
     class Meta:
@@ -31,3 +31,8 @@ class MajorForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'faculty': forms.Select(attrs={'class': 'form-control'}),
         }
+
+class AccessRecordForm(forms.ModelForm):
+    class Meta:
+        model = AccessRecord
+        fields = [field.name for field in AccessRecord._meta.fields if field.name != 'timestamp'] 
