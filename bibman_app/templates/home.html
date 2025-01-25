@@ -1,21 +1,16 @@
 {% extends "base.html" %} {% block content %}
 <div class="text-center mt-5">
-  <h1>Welcome to the Access Management System</h1>
+  <h1>Bienvenido a Accesify</h1>
   <p class="lead">
-    This system allows you to manage people’s access, view records, and perform
-    CRUD operations for both students and professors.
+    Administra accesos de estudiantes y profesores de forma fácil y rápida.
   </p>
   <div class="mt-4">
-    <a href="{% url 'student-list' %}" class="btn btn-primary mb-2"
-      >Go to Students List</a
-    >
-    <a href="{% url 'professor-list' %}" class="btn btn-secondary mb-2"
-      >Go to Professors List</a
-    >
+    <a href="{% url 'student-list' %}" class="btn btn-primary mb-2">
+      Lista de Estudiantes
+    </a>
+    <a href="{% url 'professor-list' %}" class="btn btn-secondary mb-2">
+      Lista de Profesores
+    </a>
   </div>
-  <p>
-    You can add, edit, delete, and filter records based on student or professor
-    data, including faculty, department, and academic details.
-  </p>
 </div>
 {% endblock %}
