@@ -3,10 +3,10 @@
   <h1>Edit Faculty</h1>
   <form method="POST">
     {% csrf_token %} {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
   </form>
   <a href="{% url 'faculty-list' %}" class="btn btn-secondary mt-3"
-    >Back to List</a
+    >Volver a la Lista</a
   >
 </div>
 {% endblock %}

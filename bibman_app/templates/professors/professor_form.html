@@ -5,7 +5,7 @@
   </h1>
   <form method="post">
     {% csrf_token %} {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Save</button>
+    <button type="submit" class="btn btn-primary">Guardar</button>
     <a href="{% url 'professor-list' %}" class="btn btn-secondary">Cancel</a>
   </form>
 </div>

@@ -27,6 +27,29 @@ class StudentListView(ListView):
     template_name = "students/student_list.html"
     context_object_name = "students"
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        # Getting filters from GET request
+        name = self.request.GET.get('name')
+        major = self.request.GET.get('major')
+        academic_year = self.request.GET.get('academic_year')
+
+        # Filtering based on the query parameters
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+        if major:
+            queryset = queryset.filter(major_id=major)
+        if academic_year:
+            queryset = queryset.filter(academic_year=academic_year)
+        
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['majors'] = Major.objects.all()  # Make sure 'Major' is your correct model
+        return context
+
 
 class StudentCreateView(CreateView):
     model = Student
@@ -54,6 +77,30 @@ class ProfessorListView(ListView):
     template_name = "professors/professor_list.html"
     context_object_name = "professors"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['majors'] = Major.objects.all()  # Ensure that you're passing all majors to the context
+        context['departments'] = Department.objects.all()  # Ensure that you're passing all departments to the context
+
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        # Get filter values from the GET request
+        name = self.request.GET.get('name')
+        major = self.request.GET.get('major')
+        academic_year = self.request.GET.get('academic_year')
+
+        # Filter professors based on the request parameters
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+        if major:
+            queryset = queryset.filter(major_id=major)
+        if academic_year:
+            queryset = queryset.filter(academic_year=academic_year)
+
+        return queryset
 
 class ProfessorCreateView(CreateView):
     model = Professor
@@ -80,11 +127,35 @@ class ProfessorDeleteView(DeleteView):
 
 
     # List all Majors
+
 class MajorListView(ListView):
     model = Major
-    template_name = 'major/major_list.html'
-    context_object_name = 'majors'
+    template_name = "major/major_list.html"
+    context_object_name = "majors"
 
+    def get_queryset(self):
+        # Start with the base queryset
+        queryset = super().get_queryset()
+
+        # Get filter values from GET request
+        name = self.request.GET.get('name')
+        faculty = self.request.GET.get('faculty')
+
+        # If name filter is provided, filter majors by name
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+
+        # If faculty filter is provided, filter majors by faculty
+        if faculty:
+            queryset = queryset.filter(faculty__id=faculty)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add list of faculties to the context for filtering
+        context['faculties'] = Faculty.objects.all()
+        return context
 # Create a new Major
 class MajorCreateView(CreateView):
     model = Major
@@ -112,6 +183,30 @@ class DepartmentListView(ListView):
     template_name = "departments/department_list.html"
     context_object_name = "departments"
 
+    def get_queryset(self):
+        # Start with the base queryset
+        queryset = super().get_queryset()
+
+        # Get filter values from GET request
+        name = self.request.GET.get('name')
+        faculty = self.request.GET.get('faculty')
+
+        # If name filter is provided, filter departments by name
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+
+        # If faculty filter is provided, filter departments by faculty
+        if faculty:
+            queryset = queryset.filter(faculty__id=faculty)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add list of faculties to the context for filtering
+        context['faculties'] = Faculty.objects.all()
+        return context
+
 # Create View for Department
 class DepartmentCreateView(CreateView):
     model = Department
@@ -133,11 +228,24 @@ class DepartmentDeleteView(DeleteView):
     success_url = reverse_lazy("department-list")
 
 
-    # List View for Faculty
+# List View for Faculty
 class FacultyListView(ListView):
     model = Faculty
     template_name = "faculties/faculty_list.html"
     context_object_name = "faculties"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        # Get filter values from the GET request
+        name = self.request.GET.get('name')
+
+        # Filter faculties based on the request parameters
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+
+        return queryset
+
 
 # Create View for Faculty
 class FacultyCreateView(CreateView):

@@ -1,16 +1,64 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+{% block content %}
 <div class="container mt-5">
-  <h1>Students</h1>
-  <a href="{% url 'student-create' %}" class="btn btn-primary mb-3"
-    >Add Student</a
-  >
-  <table class="table table-striped">
-    <thead>
+  <!-- Header section with title and Add Student button -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="text-white">Estudiantes</h1>
+    <a href="{% url 'student-create' %}" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Añadir Estudiante
+    </a>
+  </div>
+
+  <!-- Filter form -->
+  <form method="get" class="mb-4">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <input
+          type="text"
+          name="name"
+          class="form-control bg-dark text-white"
+          placeholder="Buscar por nombre"
+          value="{{ request.GET.name|default:'' }}"
+        />
+      </div>
+      <div class="col-md-4">
+        <select
+          name="major"
+          class="form-select bg-dark text-white"
+        >
+          <option value="">Filtrar por especialidad</option>
+          {% for major in majors %}
+          <option
+            value="{{ major.id }}"
+            {% if request.GET.major == major.id|stringformat:"s" %}
+              selected
+            {% endif %}
+          >
+            {{ major.name }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-4 d-flex align-items-center">
+        <button type="submit" class="btn btn-primary me-2">
+          <i class="fas fa-filter"></i> Filtrar
+        </button>
+        <a href="{% url 'student-list' %}" class="btn btn-secondary">
+          <i class="fas fa-times"></i> Limpiar
+        </a>
+      </div>
+    </div>
+  </form>
+
+  <!-- Table to display student data -->
+  {% if students %}
+  <table class="table table-hover table-bordered table-striped table-dark">
+    <thead style="background-color: #ff5722; color: white">
       <tr>
-        <th>Name</th>
-        <th>Major</th>
-        <th>Academic Year</th>
-        <th>Actions</th>
+        <th>Nombre</th>
+        <th>Especialidad</th>
+        <th>Año Académico</th>
+        <th class="text-center">Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -19,21 +67,30 @@
         <td>{{ student.name }}</td>
         <td>{{ student.major.name|default:"N/A" }}</td>
         <td>{{ student.academic_year }}</td>
-        <td>
+        <td class="text-center">
           <a
             href="{% url 'student-edit' student.id %}"
-            class="btn btn-sm btn-warning"
-            >Edit</a
+            class="btn btn-sm btn-warning me-2"
           >
+            <i class="fas fa-edit"></i> Editar
+          </a>
           <a
             href="{% url 'student-delete' student.id %}"
             class="btn btn-sm btn-danger"
-            >Delete</a
           >
+            <i class="fas fa-trash"></i> Eliminar
+          </a>
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
+  {% else %}
+  <!-- Message if no students are found -->
+  <div class="alert alert-info text-center" role="alert">
+    No hay estudiantes registrados. ¡Añade el primero haciendo clic en
+    <strong>Añadir Estudiante</strong>!
+  </div>
+  {% endif %}
 </div>
 {% endblock %}

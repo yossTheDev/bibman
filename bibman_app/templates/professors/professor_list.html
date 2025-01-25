@@ -1,37 +1,95 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+
+{% block content %}
 <div class="container mt-5">
-  <h1>Professors</h1>
-  <a href="{% url 'professor-create' %}" class="btn btn-primary mb-3"
-    >Add Professor</a
-  >
-  <table class="table table-striped">
-    <thead>
+  <!-- Header section with title and Add Professor button -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="text-white">Profesores</h1>
+    <a href="{% url 'professor-create' %}" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Añadir Profesor
+    </a>
+  </div>
+
+  <!-- Filter form -->
+  <form method="get" class="mb-4">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <input
+          type="text"
+          name="name"
+          class="form-control bg-dark text-white"
+          placeholder="Buscar por nombre"
+          value="{{ request.GET.name|default:'' }}"
+        />
+      </div>
+      <div class="col-md-4">
+        <select
+          name="department"
+          class="form-select bg-dark text-white"
+        >
+          <option value="">Filtrar por departamento</option>
+          {% for department in departments %}
+            <option
+              value="{{ department.id }}"
+              {% if request.GET.department == department.id|stringformat:"s" %}
+                selected
+              {% endif %}
+            >
+              {{ department.name }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-4 d-flex align-items-center">
+        <button type="submit" class="btn btn-primary me-2">
+          <i class="fas fa-filter"></i> Filtrar
+        </button>
+        <a href="{% url 'professor-list' %}" class="btn btn-secondary">
+          <i class="fas fa-times"></i> Limpiar
+        </a>
+      </div>
+    </div>
+  </form>
+
+  <!-- Table to display professor data -->
+  {% if professors %}
+  <table class="table table-hover table-bordered table-striped table-dark">
+    <thead style="background-color: #ff5722; color: white">
       <tr>
-        <th>Name</th>
-        <th>Department</th>
-        <th>Actions</th>
+        <th>Nombre</th>
+        <th>Departamento</th>
+        <th class="text-center">Acciones</th>
       </tr>
     </thead>
     <tbody>
       {% for professor in professors %}
       <tr>
         <td>{{ professor.name }}</td>
-        <td>{{ professor.department.name }}</td>
-        <td>
+        <td>{{ professor.department.name|default:"N/A" }}</td>
+        <td class="text-center">
           <a
             href="{% url 'professor-edit' professor.id %}"
-            class="btn btn-sm btn-warning"
-            >Edit</a
+            class="btn btn-sm btn-warning me-2"
           >
+            <i class="fas fa-edit"></i> Editar
+          </a>
           <a
             href="{% url 'professor-delete' professor.id %}"
             class="btn btn-sm btn-danger"
-            >Delete</a
           >
+            <i class="fas fa-trash"></i> Eliminar
+          </a>
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
+  {% else %}
+  <!-- Message if no professors are found -->
+  <div class="alert alert-info text-center" role="alert">
+    No hay profesores registrados. ¡Añade el primero haciendo clic en
+    <strong>Añadir Profesor</strong>!
+  </div>
+  {% endif %}
 </div>
 {% endblock %}

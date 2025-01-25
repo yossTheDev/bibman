@@ -1,15 +1,66 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+
+{% block content %}
 <div class="container mt-5">
-  <h1>Departments</h1>
-  <a href="{% url 'department-create' %}" class="btn btn-primary mb-3"
-    >Add Department</a
-  >
-  <table class="table table-striped">
-    <thead>
+  <!-- Header section with title and Add Department button -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="text-white">Departamentos</h1>
+    <a href="{% url 'department-create' %}" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Añadir Departamento
+    </a>
+  </div>
+
+  <!-- Filter form -->
+  <form method="get" class="mb-4">
+    <div class="row g-3">
+      <!-- Name filter -->
+      <div class="col-md-4">
+        <input
+          type="text"
+          name="name"
+          class="form-control bg-dark text-white"
+          placeholder="Buscar por nombre"
+          value="{{ request.GET.name|default:'' }}"
+        />
+      </div>
+      <!-- Faculty filter -->
+      <div class="col-md-4">
+        <select
+          name="faculty"
+          class="form-select bg-dark text-white"
+        >
+          <option value="">Filtrar por facultad</option>
+          {% for faculty in faculties %}
+          <option
+            value="{{ faculty.id }}"
+            {% if request.GET.faculty == faculty.id|stringformat:"s" %}
+              selected
+            {% endif %}
+          >
+            {{ faculty.name }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-4 d-flex align-items-center">
+        <button type="submit" class="btn btn-primary me-2">
+          <i class="fas fa-filter"></i> Filtrar
+        </button>
+        <a href="{% url 'department-list' %}" class="btn btn-secondary">
+          <i class="fas fa-times"></i> Limpiar
+        </a>
+      </div>
+    </div>
+  </form>
+
+  <!-- Table to display department data -->
+  {% if departments %}
+  <table class="table table-hover table-bordered table-striped table-dark">
+    <thead style="background-color: #ff5722; color: white">
       <tr>
-        <th>Name</th>
-        <th>Faculty</th>
-        <th>Actions</th>
+        <th>Nombre</th>
+        <th>Facultad</th>
+        <th class="text-center">Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -17,21 +68,30 @@
       <tr>
         <td>{{ department.name }}</td>
         <td>{{ department.faculty.name }}</td>
-        <td>
+        <td class="text-center">
           <a
             href="{% url 'department-edit' department.id %}"
-            class="btn btn-sm btn-warning"
-            >Edit</a
+            class="btn btn-sm btn-warning me-2"
           >
+            <i class="fas fa-edit"></i> Editar
+          </a>
           <a
             href="{% url 'department-delete' department.id %}"
             class="btn btn-sm btn-danger"
-            >Delete</a
           >
+            <i class="fas fa-trash"></i> Eliminar
+          </a>
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
+  {% else %}
+  <!-- Message if no departments are found -->
+  <div class="alert alert-info text-center" role="alert">
+    No hay departamentos registrados. ¡Añade el primero haciendo clic en
+    <strong>Añadir Departamento</strong>!
+  </div>
+  {% endif %}
 </div>
 {% endblock %}

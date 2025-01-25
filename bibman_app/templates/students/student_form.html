@@ -3,7 +3,7 @@
   <h1>{% if view.object %} Edit Student {% else %} Add Student {% endif %}</h1>
   <form method="post">
     {% csrf_token %} {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Save</button>
+    <button type="submit" class="btn btn-success">Guardar</button>
     <a href="{% url 'student-list' %}" class="btn btn-secondary">Cancel</a>
   </form>
 </div>
